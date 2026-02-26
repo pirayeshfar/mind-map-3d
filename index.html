@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نقشه ذهنی سه‌بعدی</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════ */
+        /* بخش ۱: استایل‌های پایه */
+        /* ═══════════════════════════════════════ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: #030014;
+            min-height: 100vh;
+            overflow-x: hidden;
+            direction: rtl;
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۲: پس‌زمینه گرادیان */
+        /* ═══════════════════════════════════════ */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 245, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۳: استایل‌های ویزارد */
+        /* ═══════════════════════════════════════ */
+        #wizard-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            padding-bottom: 80px;
+            overflow-y: auto;
+        }
+        
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 101;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #7c3aed, #00f5ff);
+            transition: width 0.5s ease;
+            border-radius: 0 2px 2px 0;
+        }
+        
+        .wizard-step {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(30px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: none;
+        }
+        
+        .wizard-step.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            display: block;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+        }
+        
+        .glass-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .glass-card::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+        
+        .glass-card::-webkit-scrollbar-thumb {
+            background: rgba(124, 58, 237, 0.5);
+            border-radius: 3px;
+        }
+        
+        .floating-emoji {
+            font-size: 64px;
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .step-title {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff 0%, #00f5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .step-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۴: دکمه‌ها و اینپوت‌ها */
+        /* ═══════════════════════════════════════ */
+        .btn {
+            padding: 14px 40px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed 0%, #00f5ff 100%);
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        
+        .shake {
+            animation: shake 0.4s ease;
+        }
+        
+        .name-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .name-input:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+        }
+        
+        .name-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۵: چیپ‌ها و تگ‌ها */
+        /* ═══════════════════════════════════════ */
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .chips-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chips-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+        
+        .chips-container::-webkit-scrollbar-thumb {
+            background: rgba(124, 58, 237, 0.5);
+            border-radius: 3px;
+        }
+        
+        .chip {
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .chip:hover {
+            background: rgba(124, 58, 237, 0.2);
+            border-color: rgba(124, 58, 237, 0.4);
+        }
+        
+        .chip.selected {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.6) 0%, rgba(0, 245, 255, 0.4) 100%);
+            border-color: #7c3aed;
+            color: #fff;
+            transform: scale(1.02);
+        }
+        
+        .selection-counter {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .add-custom {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .custom-input {
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            color: #fff;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+            outline: none;
+            width: 150px;
+        }
+        
+        .custom-input:focus {
+            border-color: #7c3aed;
+        }
+        
+        .btn-add {
+            padding: 10px 20px;
+            background: rgba(124, 58, 237, 0.3);
+            border: 1px solid #7c3aed;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-add:hover {
+            background: rgba(124, 58, 237, 0.5);
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۶: انیمیشن پردازش */
+        /* ═══════════════════════════════════════ */
+        .processing-container {
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #7c3aed;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .process-steps {
+            text-align: right;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+        
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .process-step.done {
+            color: #10b981;
+        }
+        
+        .process-step .icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .process-step.done .icon {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۷: کانتینر نقشه */
+        /* ═══════════════════════════════════════ */
+        #map-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: none;
+        }
+        
+        #three-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۸: عناصر UI نقشه */
+        /* ═══════════════════════════════════════ */
+        .map-ui {
+            position: fixed;
+            z-index: 20;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .map-title {
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .map-title h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .map-title p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+        
+        .legend {
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .legend-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+        
+        .toast {
+            top: 100px;
+            right: 20px;
+            max-width: 350px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateX(400px);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .toast-title {
+            font-weight: 600;
+            color: #00f5ff;
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0;
+            line-height: 1;
+        }
+        
+        .toast-content {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-size: 13px;
+        }
+        
+        .toast-content strong {
+            color: #f472b6;
+        }
+        
+        .node-panel {
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%) translateX(400px);
+            width: 280px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .node-panel.show {
+            transform: translateY(-50%) translateX(0);
+        }
+        
+        .node-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .node-panel-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .node-panel-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        .node-panel-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            font-size: 22px;
+            padding: 0;
+        }
+        
+        .node-panel-stats {
+            padding: 15px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .node-panel-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .connections-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .connections-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .connections-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+        
+        .connection-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .connection-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .layout-buttons {
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .layout-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .layout-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .layout-btn.active {
+            background: linear-gradient(135deg, #7c3aed, #00f5ff);
+            color: #fff;
+        }
+        
+        .help-text {
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .restart-btn {
+            bottom: 30px;
+            right: 20px;
+            padding: 12px 25px;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            border-radius: 12px;
+            color: #ef4444;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .restart-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۹-الف: فوتر */
+        /* ═══════════════════════════════════════ */
+        .app-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 102;
+            text-align: center;
+            padding: 15px 20px;
+            background: linear-gradient(to top, rgba(3, 0, 20, 0.95) 0%, rgba(3, 0, 20, 0.8) 50%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .app-footer-content {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            pointer-events: auto;
+        }
+        
+        .app-footer-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            font-weight: 400;
+        }
+        
+        .app-footer-name {
+            background: linear-gradient(135deg, #7c3aed 0%, #00f5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        .app-footer-year {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+        }
+        
+        .app-footer-divider {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .app-footer-heart {
+            color: #f472b6;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .map-footer {
+            z-index: 25;
+            bottom: 0;
+            padding-bottom: 10px;
+        }
+        
+        /* ═══════════════════════════════════════ */
+        /* بخش ۹: ریسپانسیو */
+        /* ═══════════════════════════════════════ */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 30px 20px;
+            }
+            
+            .step-title {
+                font-size: 22px;
+            }
+            
+            .floating-emoji {
+                font-size: 48px;
+            }
+            
+            .chips-container {
+                max-height: 250px;
+            }
+            
+            .chip {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+            
+            .legend {
+                display: none;
+            }
+            
+            .toast {
+                max-width: calc(100% - 40px);
+                top: auto;
+                bottom: 120px;
+                right: 20px;
+                left: 20px;
+            }
+            
+            .node-panel {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+                top: auto;
+                bottom: 120px;
+                transform: translateY(400px);
+            }
+            
+            .node-panel.show {
+                transform: translateY(0);
+            }
+            
+            .layout-buttons {
+                padding: 8px 10px;
+            }
+            
+            .layout-btn {
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+            
+            .map-title {
+                right: 10px;
+                top: 10px;
+                padding: 10px 15px;
+            }
+            
+            .map-title h2 {
+                font-size: 14px;
+            }
+            
+            .app-footer-content {
+                padding: 8px 15px;
+                gap: 6px;
+            }
+            
+            .app-footer-text {
+                font-size: 11px;
+            }
+            
+            .app-footer-name {
+                font-size: 12px;
+            }
+            
+            .app-footer-year {
+                font-size: 10px;
+            }
+            
+            .map-footer {
+                padding-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <!-- ═══════════════════════════════════════ -->
+    <!-- بخش ویزارد -->
+    <!-- ═══════════════════════════════════════ -->
+    <div id="wizard-container">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <!-- مرحله ۰: خوش‌آمدگویی -->
+        <div class="wizard-step active" data-step="0">
+            <div class="glass-card">
+                <div class="floating-emoji">🧠</div>
+                <h1 class="step-title">نقشه ذهنی خودت رو کشف کن</h1>
+                <p class="step-description">
+                    با پاسخ به چند سؤال ساده، افکار، استعدادها و اهدافت رو به یک شبکه سه‌بعدی زیبا تبدیل می‌کنیم. 
+                    این نقشه بهت کمک می‌کنه ارتباط بین علایق و مهارت‌هات رو ببینی و مسیرهای جدید کشف کنی!
+                </p>
+                <button class="btn btn-primary" onclick="nextStep()">شروع کنیم ✨</button>
+            </div>
+        </div>
+        
+        <!-- مرحله ۱: نام -->
+        <div class="wizard-step" data-step="1">
+            <div class="glass-card">
+                <div class="floating-emoji">👋</div>
+                <h2 class="step-title">اسمت چیه؟</h2>
+                <p class="step-description">می‌خوایم نقشه رو برات شخصی‌سازی کنیم</p>
+                <input type="text" class="name-input" id="user-name" placeholder="اسمت رو بنویس (اختیاری)">
+                <div>
+                    <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                    <button class="btn btn-primary" onclick="nextStep()">بعدی</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- مرحله ۲: علایق -->
+        <div class="wizard-step" data-step="2">
+            <div class="glass-card">
+                <div class="floating-emoji">💡</div>
+                <h2 class="step-title">به چه چیزهایی علاقه داری؟</h2>
+                <p class="step-description">حداقل یک مورد انتخاب کن</p>
+                <div class="selection-counter" id="interests-counter">۰ مورد انتخاب شده</div>
+                <div class="chips-container" id="interests-chips"></div>
+                <div class="add-custom">
+                    <input type="text" class="custom-input" id="custom-interest" placeholder="مورد دلخواه...">
+                    <button class="btn-add" onclick="addCustomChip('interests')">افزودن +</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                    <button class="btn btn-primary" id="interests-next" onclick="nextStep()">بعدی</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- مرحله ۳: مهارت‌ها -->
+        <div class="wizard-step" data-step="3">
+            <div class="glass-card">
+                <div class="floating-emoji">🛠️</div>
+                <h2 class="step-title">چه مهارت‌هایی داری؟</h2>
+                <p class="step-description">مهارت‌هایی که بهشون مسلط هستی یا دوست داری یاد بگیری</p>
+                <div class="selection-counter" id="skills-counter">۰ مورد انتخاب شده</div>
+                <div class="chips-container" id="skills-chips"></div>
+                <div class="add-custom">
+                    <input type="text" class="custom-input" id="custom-skill" placeholder="مهارت دلخواه...">
+                    <button class="btn-add" onclick="addCustomChip('skills')">افزودن +</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                    <button class="btn btn-primary" onclick="nextStep()">بعدی</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- مرحله ۴: اهداف -->
+        <div class="wizard-step" data-step="4">
+            <div class="glass-card">
+                <div class="floating-emoji">🎯</div>
+                <h2 class="step-title">اهداف و رؤیاهات چیه؟</h2>
+                <p class="step-description">به چه چیزهایی می‌خوای برسی؟</p>
+                <div class="selection-counter" id="goals-counter">۰ مورد انتخاب شده</div>
+                <div class="chips-container" id="goals-chips"></div>
+                <div class="add-custom">
+                    <input type="text" class="custom-input" id="custom-goal" placeholder="هدف دلخواه...">
+                    <button class="btn-add" onclick="addCustomChip('goals')">افزودن +</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                    <button class="btn btn-primary" onclick="nextStep()">بعدی</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- مرحله ۵: چالش‌ها -->
+        <div class="wizard-step" data-step="5">
+            <div class="glass-card">
+                <div class="floating-emoji">🌊</div>
+                <h2 class="step-title">چه چالش‌هایی داری؟</h2>
+                <p class="step-description">موانعی که سر راهت حس می‌کنی</p>
+                <div class="selection-counter" id="challenges-counter">۰ مورد انتخاب شده</div>
+                <div class="chips-container" id="challenges-chips"></div>
+                <div class="add-custom">
+                    <input type="text" class="custom-input" id="custom-challenge" placeholder="چالش دلخواه...">
+                    <button class="btn-add" onclick="addCustomChip('challenges')">افزودن +</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                    <button class="btn btn-primary" onclick="nextStep()">ساخت نقشه 🚀</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- مرحله ۶: پردازش -->
+        <div class="wizard-step" data-step="6">
+            <div class="glass-card">
+                <div class="processing-container">
+                    <div class="spinner"></div>
+                    <h2 class="step-title">در حال ساخت نقشه ذهنی...</h2>
+                    <div class="process-steps">
+                        <div class="process-step" data-process="0">
+                            <div class="icon">✓</div>
+                            <span>تحلیل علایق</span>
+                        </div>
+                        <div class="process-step" data-process="1">
+                            <div class="icon">✓</div>
+                            <span>شناسایی مهارت‌ها</span>
+                        </div>
+                        <div class="process-step" data-process="2">
+                            <div class="icon">✓</div>
+                            <span>کشف ارتباطات</span>
+                        </div>
+                        <div class="process-step" data-process="3">
+                            <div class="icon">✓</div>
+                            <span>پیشنهاد مسیر</span>
+                        </div>
+                        <div class="process-step" data-process="4">
+                            <div class="icon">✓</div>
+                            <span>ساخت نقشه سه‌بعدی</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- فوتر ویزارد -->
+        <footer class="app-footer">
+            <div class="app-footer-content">
+                <span class="app-footer-heart">💜</span>
+                <span class="app-footer-text">طراحی، ایده و توسعه توسط</span>
+                <span class="app-footer-name">امیرسامان پیرایش‌فر</span>
+                <span class="app-footer-divider"></span>
+                <span class="app-footer-year">۲۰۲۶</span>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- ═══════════════════════════════════════ -->
+    <!-- بخش نقشه -->
+    <!-- ═══════════════════════════════════════ -->
+    <div id="map-container">
+        <canvas id="three-canvas"></canvas>
+        
+        <div class="map-ui map-title">
+            <h2 id="map-user-name">نقشه ذهنی من</h2>
+            <p>شبکه افکار و استعدادها</p>
+        </div>
+        
+        <div class="map-ui legend">
+            <div class="legend-title">راهنمای رنگ‌ها</div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #00f5ff;"></div>
+                <span>مرکز</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #7c3aed;"></div>
+                <span>علایق</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #3b82f6;"></div>
+                <span>مهارت‌ها</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #10b981;"></div>
+                <span>اهداف</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f59e0b;"></div>
+                <span>چالش‌ها</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f472b6;"></div>
+                <span>پیشنهاد مسیر</span>
+            </div>
+        </div>
+        
+        <div class="map-ui toast" id="insight-toast">
+            <div class="toast-header">
+                <span class="toast-title">✨ بینش شخصی</span>
+                <button class="toast-close" onclick="closeToast()">×</button>
+            </div>
+            <div class="toast-content" id="insight-content"></div>
+        </div>
+        
+        <div class="map-ui node-panel" id="node-panel">
+            <div class="node-panel-header">
+                <div>
+                    <div class="node-panel-name" id="panel-name">نام گره</div>
+                    <div class="node-panel-category" id="panel-category">دسته</div>
+                </div>
+                <button class="node-panel-close" onclick="closeNodePanel()">×</button>
+            </div>
+            <div class="node-panel-stats">
+                <div class="node-panel-stat">
+                    <span>تعداد اتصالات:</span>
+                    <span id="panel-connections">۰</span>
+                </div>
+            </div>
+            <div class="legend-title">متصل به:</div>
+            <div class="connections-list" id="panel-connections-list"></div>
+        </div>
+        
+        <div class="map-ui help-text">
+            درگ: چرخش | اسکرول: زوم | کلیک: انتخاب گره
+        </div>
+        
+        <div class="map-ui layout-buttons">
+            <button class="layout-btn active" data-layout="organic" onclick="setLayout('organic')">ارگانیک</button>
+            <button class="layout-btn" data-layout="centralized" onclick="setLayout('centralized')">متمرکز</button>
+            <button class="layout-btn" data-layout="distributed" onclick="setLayout('distributed')">توزیع‌شده</button>
+        </div>
+        
+        <button class="map-ui restart-btn" onclick="location.reload()">🔄 شروع دوباره</button>
+        
+        <!-- فوتر نقشه -->
+        <footer class="app-footer map-footer">
+            <div class="app-footer-content">
+                <span class="app-footer-heart">💜</span>
+                <span class="app-footer-text">طراحی، ایده و توسعه توسط</span>
+                <span class="app-footer-name">امیرسامان پیرایش‌فر</span>
+                <span class="app-footer-divider"></span>
+                <span class="app-footer-year">۲۰۲۶</span>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+    // ═══════════════════════════════════════
+    // بخش ۱۰: داده‌های اولیه
+    // ═══════════════════════════════════════
+    
+    const DATA = {
+        interests: [
+            { name: '💻 تکنولوژی', tags: ['tech', 'digital', 'future', 'logic', 'innovation'] },
+            { name: '🎨 هنر و نقاشی', tags: ['creative', 'visual', 'expression', 'art'] },
+            { name: '⚽ ورزش', tags: ['health', 'physical', 'energy', 'discipline'] },
+            { name: '🎵 موسیقی', tags: ['creative', 'expression', 'emotion', 'art'] },
+            { name: '🔬 علم و پژوهش', tags: ['research', 'analysis', 'knowledge', 'logic'] },
+            { name: '💼 کسب‌وکار', tags: ['business', 'money', 'leadership', 'innovation'] },
+            { name: '✍️ نویسندگی', tags: ['creative', 'expression', 'communication', 'storytelling'] },
+            { name: '🎮 بازی و سرگرمی', tags: ['creative', 'tech', 'storytelling', 'fun'] },
+            { name: '📸 عکاسی و فیلم', tags: ['creative', 'visual', 'storytelling', 'tech'] },
+            { name: '🍳 آشپزی', tags: ['creative', 'health', 'creation', 'art'] },
+            { name: '✈️ سفر و فرهنگ', tags: ['freedom', 'knowledge', 'social', 'experience'] },
+            { name: '🤔 فلسفه و تفکر', tags: ['thought', 'wisdom', 'analysis', 'knowledge'] },
+            { name: '🧠 روانشناسی', tags: ['thought', 'social', 'analysis', 'wisdom'] },
+            { name: '📐 ریاضیات', tags: ['logic', 'analysis', 'knowledge', 'research'] },
+            { name: '🏥 پزشکی و سلامت', tags: ['health', 'knowledge', 'social', 'research'] }
+        ],
+        skills: [
+            { name: '👨‍💻 برنامه‌نویسی', tags: ['tech', 'logic', 'creation', 'digital'] },
+            { name: '🎨 طراحی', tags: ['creative', 'visual', 'art', 'creation'] },
+            { name: '📝 نوشتن و محتوا', tags: ['creative', 'communication', 'expression', 'storytelling'] },
+            { name: '🎤 سخنرانی', tags: ['communication', 'leadership', 'social', 'expression'] },
+            { name: '📊 تحلیل', tags: ['analysis', 'logic', 'research', 'knowledge'] },
+            { name: '💡 خلاقیت', tags: ['creative', 'innovation', 'creation', 'art'] },
+            { name: '👑 رهبری', tags: ['leadership', 'social', 'business', 'communication'] },
+            { name: '🤝 کار تیمی', tags: ['social', 'communication', 'leadership'] },
+            { name: '🧩 حل مسئله', tags: ['logic', 'analysis', 'innovation', 'creation'] },
+            { name: '📋 سازمان‌دهی', tags: ['logic', 'leadership', 'business', 'discipline'] },
+            { name: '💬 ارتباطات', tags: ['communication', 'social', 'expression'] },
+            { name: '📚 تدریس', tags: ['knowledge', 'communication', 'social', 'expression'] }
+        ],
+        goals: [
+            { name: '💰 درآمد بیشتر', tags: ['money', 'business', 'freedom'] },
+            { name: '📖 یادگیری مهارت جدید', tags: ['knowledge', 'creation', 'innovation'] },
+            { name: '🛠️ ساختن محصول', tags: ['creation', 'innovation', 'tech', 'business'] },
+            { name: '❤️ کمک به دیگران', tags: ['social', 'wisdom', 'expression'] },
+            { name: '🔍 خودشناسی', tags: ['thought', 'wisdom', 'knowledge'] },
+            { name: '🏦 استقلال مالی', tags: ['money', 'freedom', 'business'] },
+            { name: '🌟 تأثیرگذاری', tags: ['leadership', 'social', 'expression', 'communication'] },
+            { name: '☮️ آرامش ذهنی', tags: ['thought', 'health', 'wisdom'] },
+            { name: '🌍 سفر دور دنیا', tags: ['freedom', 'experience', 'knowledge'] },
+            { name: '🏢 تأسیس شرکت', tags: ['business', 'leadership', 'innovation', 'creation'] },
+            { name: '📕 نوشتن کتاب', tags: ['creative', 'expression', 'storytelling', 'knowledge'] },
+            { name: '🎓 تحصیلات بالاتر', tags: ['knowledge', 'research', 'discipline'] }
+        ],
+        challenges: [
+            { name: '🌀 سردرگمی', tags: ['confusion', 'thought', 'direction'] },
+            { name: '⏰ کمبود وقت', tags: ['time', 'discipline', 'energy'] },
+            { name: '😨 ترس از شکست', tags: ['fear', 'thought', 'confidence'] },
+            { name: '🎯 کمبود تمرکز', tags: ['focus', 'discipline', 'energy'] },
+            { name: '🛤️ نداشتن مسیر', tags: ['direction', 'confusion', 'thought'] },
+            { name: '😰 استرس', tags: ['thought', 'health', 'energy'] },
+            { name: '🔋 کمبود انگیزه', tags: ['energy', 'direction', 'thought'] },
+            { name: '🚶 تنهایی', tags: ['social', 'thought', 'emotion'] },
+            { name: '✨ کمال‌گرایی', tags: ['thought', 'discipline', 'confidence'] },
+            { name: '👀 مقایسه با دیگران', tags: ['thought', 'confidence', 'social'] }
+        ]
+    };
+    
+    const SUGGESTIONS = [
+        { name: '🚀 استارتاپ فناوری', tags: ['tech', 'business', 'innovation'], min: 2 },
+        { name: '🎨 هنرمند دیجیتال', tags: ['creative', 'visual', 'tech'], min: 2 },
+        { name: '📱 تولید محتوا', tags: ['creative', 'communication', 'expression'], min: 2 },
+        { name: '🎓 آموزش آنلاین', tags: ['knowledge', 'communication', 'tech'], min: 2 },
+        { name: '🔬 پژوهشگر', tags: ['research', 'analysis', 'knowledge'], min: 2 },
+        { name: '💼 مشاور و منتور', tags: ['social', 'leadership', 'communication'], min: 2 },
+        { name: '🎮 بازی‌ساز', tags: ['creative', 'tech', 'storytelling'], min: 2 },
+        { name: '💻 فریلنسر', tags: ['freedom', 'creation', 'tech'], min: 2 },
+        { name: '📊 تحلیلگر داده', tags: ['logic', 'analysis', 'tech'], min: 2 },
+        { name: '🧘 مربی توسعه فردی', tags: ['thought', 'social', 'wisdom'], min: 2 }
+    ];
+    
+    const COLORS = {
+        center: 0x00f5ff,
+        interests: 0x7c3aed,
+        skills: 0x3b82f6,
+        goals: 0x10b981,
+        challenges: 0xf59e0b,
+        suggestions: 0xf472b6
+    };
+    
+    const CATEGORY_NAMES = {
+        center: 'مرکز',
+        interests: 'علایق',
+        skills: 'مهارت‌ها',
+        goals: 'اهداف',
+        challenges: 'چالش‌ها',
+        suggestions: 'پیشنهاد مسیر'
+    };
+    
+    // ═══════════════════════════════════════
+    // بخش ۱۱: متغیرهای سراسری
+    // ═══════════════════════════════════════
+    
+    let currentStep = 0;
+    const totalSteps = 7;
+    const userData = {
+        name: '',
+        interests: [],
+        skills: [],
+        goals: [],
+        challenges: []
+    };
+    
+    let scene, camera, renderer;
+    let graphNodes = [];
+    let graphEdges = [];
+    let edgeParticles = [];
+    let stars;
+    let currentLayout = 'organic';
+    let selectedNode = null;
+    let hoveredNode = null;
+    
+    // Camera controls
+    let theta = 0, phi = Math.PI / 4;
+    let targetTheta = 0, targetPhi = Math.PI / 4;
+    let cameraDistance = 50;
+    let targetDistance = 50;
+    let isDragging = false;
+    let didDrag = false;
+    let lastMouseX = 0, lastMouseY = 0;
+    let autoRotate = true;
+    let lastInteraction = Date.now();
+    
+    // Touch
+    let lastTouchDistance = 0;
+    
+    // Force simulation
+    const REP = 800;
+    const ATT = 0.02;
+    const CEN = 0.01;
+    const DAMP = 0.87;
+    const MAX_VEL = 0.5;
+    let simulationActive = true;
+    
+    // Layout transition
+    let isTransitioning = false;
+    let transitionProgress = 0;
+    let targetPositions = [];
+    
+    // ═══════════════════════════════════════
+    // بخش ۱۲: مدیریت ویزارد
+    // ═══════════════════════════════════════
+    
+    function updateProgressBar() {
+        const progress = (currentStep / (totalSteps - 1)) * 100;
+        document.getElementById('progress-bar').style.width = progress + '%';
+    }
+    
+    function showStep(step) {
+        document.querySelectorAll('.wizard-step').forEach((el, idx) => {
+            if (idx === step) {
+                el.classList.add('active');
+            } else {
+                el.classList.remove('active');
+            }
+        });
+        updateProgressBar();
+    }
+    
+    function nextStep() {
+        // Validate interests
+        if (currentStep === 2 && userData.interests.length === 0) {
+            const btn = document.getElementById('interests-next');
+            btn.classList.add('shake');
+            setTimeout(() => btn.classList.remove('shake'), 400);
+            return;
+        }
+        
+        // Save name
+        if (currentStep === 1) {
+            userData.name = document.getElementById('user-name').value.trim() || 'من';
+        }
+        
+        currentStep++;
+        
+        if (currentStep === 6) {
+            startProcessing();
+        }
+        
+        showStep(currentStep);
+    }
+    
+    function prevStep() {
+        if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
+    
+    function startProcessing() {
+        const steps = document.querySelectorAll('.process-step');
+        let delay = 0;
+        
+        steps.forEach((step, idx) => {
+            setTimeout(() => {
+                step.classList.add('done');
+            }, delay);
+            delay += 600;
+        });
+        
+        setTimeout(() => {
+            buildGraph();
+            showMap();
+        }, delay + 500);
+    }
+    
+    function toPersianNum(num) {
+        const persianDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+        return String(num).replace(/\d/g, d => persianDigits[d]);
+    }
+    
+    function updateCounter(category) {
+        const counter = document.getElementById(category + '-counter');
+        counter.textContent = toPersianNum(userData[category].length) + ' مورد انتخاب شده';
+    }
+    
+    function createChips(category, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        
+        DATA[category].forEach((item, idx) => {
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            chip.textContent = item.name;
+            chip.dataset.index = idx;
+            chip.dataset.category = category;
+            
+            chip.addEventListener('click', () => {
+                toggleChip(chip, category, item);
+            });
+            
+            container.appendChild(chip);
+        });
+    }
+    
+    function toggleChip(chipEl, category, item) {
+        const idx = userData[category].findIndex(i => i.name === item.name);
+        
+        if (idx >= 0) {
+            userData[category].splice(idx, 1);
+            chipEl.classList.remove('selected');
+        } else {
+            userData[category].push(item);
+            chipEl.classList.add('selected');
+        }
+        
+        updateCounter(category);
+    }
+    
+    function addCustomChip(category) {
+        const inputId = 'custom-' + (category === 'interests' ? 'interest' : 
+                        category === 'skills' ? 'skill' : 
+                        category === 'goals' ? 'goal' : 'challenge');
+        const input = document.getElementById(inputId);
+        const value = input.value.trim();
+        
+        if (!value) return;
+        
+        const item = {
+            name: value,
+            tags: ['custom']
+        };
+        
+        DATA[category].push(item);
+        userData[category].push(item);
+        
+        const container = document.getElementById(category + '-chips');
+        const chip = document.createElement('div');
+        chip.className = 'chip selected';
+        chip.textContent = value;
+        chip.dataset.category = category;
+        
+        chip.addEventListener('click', () => {
+            toggleChip(chip, category, item);
+        });
+        
+        container.appendChild(chip);
+        input.value = '';
+        updateCounter(category);
+    }
+    
+    // ═══════════════════════════════════════
+    // بخش ۱۳: ساخت گراف
+    // ═══════════════════════════════════════
+    
+    function buildGraph() {
+        graphNodes = [];
+        graphEdges = [];
+        
+        // Central node
+        const centerNode = {
+            id: 'center',
+            name: userData.name,
+            category: 'center',
+            tags: [],
+            color: COLORS.center,
+            position: { x: 0, y: 0, z: 0 },
+            velocity: { x: 0, y: 0, z: 0 },
+            size: 2.5,
+            connections: []
+        };
+        graphNodes.push(centerNode);
+        
+        // Add category nodes
+        const categories = ['interests', 'skills', 'goals', 'challenges'];
+        categories.forEach(cat => {
+            userData[cat].forEach((item, idx) => {
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 15 + Math.random() * 10;
+                const node = {
+                    id: cat + '_' + idx,
+                    name: item.name,
+                    category: cat,
+                    tags: item.tags || ['custom'],
+                    color: COLORS[cat],
+                    position: {
+                        x: Math.cos(angle) * dist,
+                        y: (Math.random() - 0.5) * 20,
+                        z: Math.sin(angle) * dist
+                    },
+                    velocity: { x: 0, y: 0, z: 0 },
+                    size: 1.5,
+                    connections: []
+                };
+                graphNodes.push(node);
+                
+                // Connect to center
+                graphEdges.push({
+                    source: centerNode,
+                    target: node
+                });
+                centerNode.connections.push(node);
+                node.connections.push(centerNode);
+            });
+        });
+        
+        // Cross-category connections
+        for (let i = 1; i < graphNodes.length; i++) {
+            for (let j = i + 1; j < graphNodes.length; j++) {
+                const nodeA = graphNodes[i];
+                const nodeB = graphNodes[j];
+                
+                if (nodeA.category === nodeB.category) continue;
+                
+                const sharedTags = nodeA.tags.filter(t => nodeB.tags.includes(t));
+                if (sharedTags.length > 0) {
+                    graphEdges.push({
+                        source: nodeA,
+                        target: nodeB,
+                        shared: sharedTags
+                    });
+                    nodeA.connections.push(nodeB);
+                    nodeB.connections.push(nodeA);
+                }
+            }
+        }
+        
+        // Add suggestions
+        const allUserTags = [];
+        categories.forEach(cat => {
+            userData[cat].forEach(item => {
+                if (item.tags) allUserTags.push(...item.tags);
+            });
+        });
+        
+        const matchedSuggestions = [];
+        SUGGESTIONS.forEach((sug, idx) => {
+            const matches = sug.tags.filter(t => allUserTags.includes(t));
+            if (matches.length >= sug.min) {
+                matchedSuggestions.push({ ...sug, matchedTags: matches, idx });
+            }
+        });
+        
+        matchedSuggestions.forEach((sug, i) => {
+            const angle = (i / matchedSuggestions.length) * Math.PI * 2;
+            const sugNode = {
+                id: 'sug_' + sug.idx,
+                name: sug.name,
+                category: 'suggestions',
+                tags: sug.tags,
+                color: COLORS.suggestions,
+                position: {
+                    x: Math.cos(angle) * 25,
+                    y: (Math.random() - 0.5) * 15,
+                    z: Math.sin(angle) * 25
+                },
+                velocity: { x: 0, y: 0, z: 0 },
+                size: 2,
+                connections: [],
+                isSuggestion: true
+            };
+            graphNodes.push(sugNode);
+            
+            // Connect to matching nodes
+            graphNodes.forEach(node => {
+                if (node.id === sugNode.id || node.category === 'suggestions') return;
+                const shared = node.tags.filter(t => sug.matchedTags.includes(t));
+                if (shared.length > 0) {
+                    graphEdges.push({
+                        source: sugNode,
+                        target: node,
+                        shared
+                    });
+                    sugNode.connections.push(node);
+                    node.connections.push(sugNode);
+                }
+            });
+        });
+        
+        // Generate insight
+        generateInsight(matchedSuggestions);
+    }
+    
+    function generateInsight(suggestions) {
+        let insight = `<strong>${userData.name}</strong>، تبریک می‌گم! 🎉<br><br>`;
+        
+        if (suggestions.length > 0) {
+            insight += `بر اساس پاسخ‌هات، <strong>${suggestions[0].name}</strong> می‌تونه یه مسیر عالی برات باشه!<br><br>`;
+        }
+        
+        if (userData.interests.length > 0 && userData.skills.length > 0) {
+            insight += `ترکیب <strong>${userData.interests[0].name}</strong> و <strong>${userData.skills[0].name}</strong> می‌تونه نقطه قوت منحصربه‌فردت باشه.<br><br>`;
+        }
+        
+        const hasConfusion = userData.challenges.some(c => 
+            c.name.includes('سردرگمی') || c.name.includes('مسیر'));
+        if (hasConfusion) {
+            insight += `💪 نگران نباش! همین که داری دنبال مسیر می‌گردی یعنی داری جلو می‌ری.<br><br>`;
+        }
+        
+        if (suggestions.length > 1) {
+            insight += `مسیرهای دیگه‌ای که بهت می‌خورن: `;
+            insight += suggestions.slice(1, 4).map(s => `<strong>${s.name}</strong>`).join('، ');
+        }
+        
+        document.getElementById('insight-content').innerHTML = insight;
+    }
+    
+    // ═══════════════════════════════════════
+    // بخش ۱۴: راه‌اندازی Three.js
+    // ═══════════════════════════════════════
+    
+    function showMap() {
+        document.getElementById('wizard-container').style.display = 'none';
+        document.getElementById('map-container').style.display = 'block';
+        document.getElementById('map-user-name').textContent = 'نقشه ذهنی ' + userData.name;
+        
+        initThreeJS();
+        
+        setTimeout(() => {
+            document.getElementById('insight-toast').classList.add('show');
+        }, 1000);
+    }
+    
+    function initThreeJS() {
+        const canvas = document.getElementById('three-canvas');
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // Scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x030014);
+        scene.fog = new THREE.FogExp2(0x030014, 0.004);
+        
+        // Camera
+        camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+        cameraDistance = Math.max(50, graphNodes.length * 2);
+        targetDistance = cameraDistance;
+        updateCameraPosition();
+        
+        // Renderer
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
+        // Lights
+        const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambient);
+        
+        const pointLight = new THREE.PointLight(0x7c3aed, 1, 100);
+        pointLight.position.set(10, 20, 10);
+        scene.add(pointLight);
+        
+        const pointLight2 = new THREE.PointLight(0x00f5ff, 0.8, 100);
+        pointLight2.position.set(-10, -10, -10);
+        scene.add(pointLight2);
+        
+        // Stars
+        createStars();
+        
+        // Create graph visuals
+        createGraphVisuals();
+        
+        // Events
+        setupEvents();
+        
+        // Animate
+        animate();
+    }
+    
+    function createStars() {
+        const geometry = new THREE.BufferGeometry();
+        const vertices = [];
+        
+        for (let i = 0; i < 2000; i++) {
+            vertices.push(
+                (Math.random() - 0.5) * 400,
+                (Math.random() - 0.5) * 400,
+                (Math.random() - 0.5) * 400
+            );
+        }
+        
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+        
+        const material = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 0.5,
+            transparent: true,
+            opacity: 0.6
+        });
+        
+        stars = new THREE.Points(geometry, material);
+        scene.add(stars);
+    }
+    
+    function createGlowTexture(color) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+        
+        const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        const c = new THREE.Color(color);
+        gradient.addColorStop(0, `rgba(${Math.floor(c.r*255)},${Math.floor(c.g*255)},${Math.floor(c.b*255)},1)`);
+        gradient.addColorStop(0.3, `rgba(${Math.floor(c.r*255)},${Math.floor(c.g*255)},${Math.floor(c.b*255)},0.5)`);
+        gradient.addColorStop(1, 'rgba(0,0,0,0)');
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 64, 64);
+        
+        return new THREE.CanvasTexture(canvas);
+    }
+    
+    function createLabelTexture(text) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 256;
+        canvas.height = 64;
+        
+        ctx.fillStyle = 'rgba(0,0,0,0)';
+        ctx.fillRect(0, 0, 256, 64);
+        
+        ctx.font = '24px Vazirmatn';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(text, 128, 32);
+        
+        return new THREE.CanvasTexture(canvas);
+    }
+    
+    function createGraphVisuals() {
+        // Create edges first (so they're behind nodes)
+        graphEdges.forEach(edge => {
+            const positions = new Float32Array(6);
+            const colors = new Float32Array(6);
+            
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const material = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.3,
+                blending: THREE.AdditiveBlending
+            });
+            
+            const line = new THREE.Line(geometry, material);
+            edge.line = line;
+            scene.add(line);
+            
+            // Particles on edge
+            for (let i = 0; i < 2; i++) {
+                const particleGeo = new THREE.SphereGeometry(0.15, 8, 8);
+                const particleMat = new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const particle = new THREE.Mesh(particleGeo, particleMat);
+                particle.userData = {
+                    edge,
+                    frac: i * 0.5,
+                    speed: 0.003 + Math.random() * 0.002
+                };
+                edgeParticles.push(particle);
+                scene.add(particle);
+            }
+        });
+        
+        // Create nodes
+        graphNodes.forEach(node => {
+            // Sphere
+            const geometry = new THREE.SphereGeometry(node.size, 32, 32);
+            const material = new THREE.MeshPhongMaterial({
+                color: node.color,
+                emissive: node.color,
+                emissiveIntensity: 0.3,
+                shininess: 50
+            });
+            
+            const sphere = new THREE.Mesh(geometry, material);
+            sphere.position.set(node.position.x, node.position.y, node.position.z);
+            sphere.userData = { node };
+            node.mesh = sphere;
+            scene.add(sphere);
+            
+            // Glow
+            const glowTexture = createGlowTexture(node.color);
+            const glowMaterial = new THREE.SpriteMaterial({
+                map: glowTexture,
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+            const glow = new THREE.Sprite(glowMaterial);
+            glow.scale.set(node.size * 4, node.size * 4, 1);
+            node.glow = glow;
+            sphere.add(glow);
+            
+            // Label
+            const labelTexture = createLabelTexture(node.name);
+            const labelMaterial = new THREE.SpriteMaterial({
+                map: labelTexture,
+                transparent: true,
+                depthTest: false
+            });
+            const label = new THREE.Sprite(labelMaterial);
+            label.scale.set(10, 2.5, 1);
+            label.position.set(0, node.size + 2, 0);
+            node.label = label;
+            sphere.add(label);
+        });
+    }
+    
+    function updateEdges() {
+        graphEdges.forEach(edge => {
+            const positions = edge.line.geometry.attributes.position.array;
+            const colors = edge.line.geometry.attributes.color.array;
+            
+            const s = edge.source;
+            const t = edge.target;
+            
+            positions[0] = s.position.x;
+            positions[1] = s.position.y;
+            positions[2] = s.position.z;
+            positions[3] = t.position.x;
+            positions[4] = t.position.y;
+            positions[5] = t.position.z;
+            
+            const sc = new THREE.Color(s.color);
+            const tc = new THREE.Color(t.color);
+            
+            colors[0] = sc.r; colors[1] = sc.g; colors[2] = sc.b;
+            colors[3] = tc.r; colors[4] = tc.g; colors[5] = tc.b;
+            
+            edge.line.geometry.attributes.position.needsUpdate = true;
+            edge.line.geometry.attributes.color.needsUpdate = true;
+        });
+    }
+    
+    function updateParticles() {
+        edgeParticles.forEach(particle => {
+            const data = particle.userData;
+            data.frac += data.speed;
+            if (data.frac > 1) data.frac = 0;
+            
+            const s = data.edge.source.position;
+            const t = data.edge.target.position;
+            
+            particle.position.x = s.x + (t.x - s.x) * data.frac;
+            particle.position.y = s.y + (t.y - s.y) * data.frac;
+            particle.position.z = s.z + (t.z - s.z) * data.frac;
+            
+            // Color lerp
+            const sc = new THREE.Color(data.edge.source.color);
+            const tc = new THREE.Color(data.edge.target.color);
+            particle.material.color.lerpColors(sc, tc, data.frac);
+        });
+    }
+    
+    // ═══════════════════════════════════════
+    // بخش ۱۵: شبیه‌سازی فیزیک و انیمیشن
+    // ═══════════════════════════════════════
+    
+    function applyForces() {
+        if (!simulationActive || currentLayout !== 'organic') return;
+        
+        graphNodes.forEach((node, i) => {
+            if (node.category === 'center') return;
+            
+            let fx = 0, fy = 0, fz = 0;
+            
+            // Repulsion
+            graphNodes.forEach((other, j) => {
+                if (i === j) return;
+                
+                const dx = node.position.x - other.position.x;
+                const dy = node.position.y - other.position.y;
+                const dz = node.position.z - other.position.z;
+                const d = Math.sqrt(dx*dx + dy*dy + dz*dz) + 0.1;
+                
+                const force = REP / (d * d);
+                fx += (dx / d) * force;
+                fy += (dy / d) * force;
+                fz += (dz / d) * force;
+            });
+            
+            // Attraction (edges)
+            node.connections.forEach(other => {
+                const dx = other.position.x - node.position.x;
+                const dy = other.position.y - node.position.y;
+                const dz = other.position.z - node.position.z;
+                const d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                
+                fx += dx * ATT;
+                fy += dy * ATT;
+                fz += dz * ATT;
+            });
+            
+            // Centering
+            fx -= node.position.x * CEN;
+            fy -= node.position.y * CEN;
+            fz -= node.position.z * CEN;
+            
+            // Apply velocity
+            node.velocity.x = (node.velocity.x + fx) * DAMP;
+            node.velocity.y = (node.velocity.y + fy) * DAMP;
+            node.velocity.z = (node.velocity.z + fz) * DAMP;
+            
+            // Limit
+            const speed = Math.sqrt(
+                node.velocity.x ** 2 + 
+                node.velocity.y ** 2 + 
+                node.velocity.z ** 2
+            );
+            if (speed > MAX_VEL) {
+                node.velocity.x = (node.velocity.x / speed) * MAX_VEL;
+                node.velocity.y = (node.velocity.y / speed) * MAX_VEL;
+                node.velocity.z = (node.velocity.z / speed) * MAX_VEL;
+            }
+            
+            // Update position
+            node.position.x += node.velocity.x;
+            node.position.y += node.velocity.y;
+            node.position.z += node.velocity.z;
+        });
+    }
+    
+    function transitionToLayout() {
+        if (!isTransitioning) return;
+        
+        transitionProgress += 0.02;
+        const t = easeInOutCubic(Math.min(transitionProgress, 1));
+        
+        graphNodes.forEach((node, i) => {
+            if (node.category === 'center') return;
+            
+            const target = targetPositions[i];
+            node.position.x += (target.x - node.position.x) * t * 0.1;
+            node.position.y += (target.y - node.position.y) * t * 0.1;
+            node.position.z += (target.z - node.position.z) * t * 0.1;
+        });
+        
+        if (transitionProgress >= 1) {
+            isTransitioning = false;
+        }
+    }
+    
+    function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+    
+    function setLayout(layout) {
+        currentLayout = layout;
+        
+        document.querySelectorAll('.layout-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.layout === layout);
+        });
+        
+        if (layout === 'organic') {
+            simulationActive = true;
+            isTransitioning = false;
+            return;
+        }
+        
+        simulationActive = false;
+        isTransitioning = true;
+        transitionProgress = 0;
+        targetPositions = [];
+        
+        if (layout === 'centralized') {
+            const categories = ['interests', 'skills', 'goals', 'challenges', 'suggestions'];
+            const catNodes = {};
+            categories.forEach(c => catNodes[c] = []);
+            
+            graphNodes.forEach(node => {
+                if (node.category !== 'center') {
+                    catNodes[node.category].push(node);
+                }
+                targetPositions.push({ ...node.position });
+            });
+            
+            categories.forEach((cat, ci) => {
+                const angle = (ci / categories.length) * Math.PI * 2;
+                const nodes = catNodes[cat];
+                
+                nodes.forEach((node, ni) => {
+                    const idx = graphNodes.indexOf(node);
+                    const r = 15 + ni * 5;
+                    const a = angle + (ni * 0.3);
+                    
+                    targetPositions[idx] = {
+                        x: Math.cos(a) * r,
+                        y: (ni - nodes.length / 2) * 3,
+                        z: Math.sin(a) * r
+                    };
+                });
+            });
+        } else if (layout === 'distributed') {
+            // Fibonacci sphere
+            const phi = Math.PI * (3 - Math.sqrt(5));
+            const n = graphNodes.length - 1;
+            
+            graphNodes.forEach((node, i) => {
+                targetPositions.push({ ...node.position });
+                
+                if (node.category === 'center') return;
+                
+                const idx = i - 1;
+                const y = 1 - (idx / (n - 1)) * 2;
+                const radius = Math.sqrt(1 - y * y);
+                const theta = phi * idx;
+                
+                const r = 25;
+                targetPositions[i] = {
+                    x: Math.cos(theta) * radius * r,
+                    y: y * r,
+                    z: Math.sin(theta) * radius * r
+                };
+            });
+        }
+    }
+    
+    function updateCameraPosition() {
+        camera.position.x = cameraDistance * Math.sin(theta) * Math.cos(phi);
+        camera.position.y = cameraDistance * Math.sin(phi);
+        camera.position.z = cameraDistance * Math.cos(theta) * Math.cos(phi);
+        camera.lookAt(0, 0, 0);
+    }
+    
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        // Auto rotate
+        if (autoRotate && Date.now() - lastInteraction > 5000) {
+            theta += 0.002;
+        }
+        
+        // Smooth camera
+        theta += (targetTheta - theta) * 0.1;
+        phi += (targetPhi - phi) * 0.1;
+        cameraDistance += (targetDistance - cameraDistance) * 0.1;
+        updateCameraPosition();
+        
+        // Stars rotation
+        if (stars) {
+            stars.rotation.y += 0.0001;
+            stars.rotation.x += 0.00005;
+        }
+        
+        // Physics
+        applyForces();
+        transitionToLayout();
+        
+        // Update meshes
+        graphNodes.forEach(node => {
+            node.mesh.position.set(node.position.x, node.position.y, node.position.z);
+            
+            // Glow pulse
+            const pulse = 0.5 + Math.sin(Date.now() * 0.003 + graphNodes.indexOf(node)) * 0.2;
+            node.glow.material.opacity = pulse;
+        });
+        
+        updateEdges();
+        updateParticles();
+        
+        // Hover effect
+        if (hoveredNode) {
+            hoveredNode.mesh.scale.setScalar(1.3);
+            hoveredNode.mesh.material.emissiveIntensity = 0.6;
+        }
+        
+        // Selected effect
+        if (selectedNode) {
+            graphNodes.forEach(node => {
+                const isConnected = selectedNode.connections.includes(node) || node === selectedNode;
+                node.mesh.material.opacity = isConnected ? 1 : 0.2;
+                node.label.material.opacity = isConnected ? 1 : 0.3;
+            });
+            graphEdges.forEach(edge => {
+                const involves = edge.source === selectedNode || edge.target === selectedNode;
+                edge.line.material.opacity = involves ? 0.8 : 0.1;
+            });
+        }
+        
+        renderer.render(scene, camera);
+    }
+    
+    function setupEvents() {
+        const canvas = renderer.domElement;
+        
+        // Mouse
+        canvas.addEventListener('mousedown', e => {
+            isDragging = true;
+            didDrag = false;
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+            autoRotate = false;
+            lastInteraction = Date.now();
+        });
+        
+        canvas.addEventListener('mousemove', e => {
+            // Raycasting for hover
+            const rect = canvas.getBoundingClientRect();
+            const mouse = new THREE.Vector2(
+                ((e.clientX - rect.left) / rect.width) * 2 - 1,
+                -((e.clientY - rect.top) / rect.height) * 2 + 1
+            );
+            
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            
+            const meshes = graphNodes.map(n => n.mesh);
+            const intersects = raycaster.intersectObjects(meshes);
+            
+            if (hoveredNode) {
+                hoveredNode.mesh.scale.setScalar(1);
+                hoveredNode.mesh.material.emissiveIntensity = 0.3;
+            }
+            
+            if (intersects.length > 0) {
+                hoveredNode = intersects[0].object.userData.node;
+                canvas.style.cursor = 'pointer';
+            } else {
+                hoveredNode = null;
+                canvas.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+            
+            // Dragging
+            if (isDragging) {
+                const dx = e.clientX - lastMouseX;
+                const dy = e.clientY - lastMouseY;
+                
+                if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+                    didDrag = true;
+                }
+                
+                targetTheta -= dx * 0.01;
+                targetPhi += dy * 0.01;
+                targetPhi = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, targetPhi));
+                
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+            }
+        });
+        
+        canvas.addEventListener('mouseup', e => {
+            isDragging = false;
+            lastInteraction = Date.now();
+            
+            if (!didDrag && hoveredNode) {
+                selectNode(hoveredNode);
+            }
+        });
+        
+        canvas.addEventListener('wheel', e => {
+            e.preventDefault();
+            targetDistance += e.deltaY * 0.05;
+            targetDistance = Math.max(20, Math.min(150, targetDistance));
+            lastInteraction = Date.now();
+        }, { passive: false });
+        
+        // Touch
+        canvas.addEventListener('touchstart', e => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                didDrag = false;
+                lastMouseX = e.touches[0].clientX;
+                lastMouseY = e.touches[0].clientY;
+            } else if (e.touches.length === 2) {
+                lastTouchDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+            }
+            autoRotate = false;
+            lastInteraction = Date.now();
+        });
+        
+        canvas.addEventListener('touchmove', e => {
+            e.preventDefault();
+            
+            if (e.touches.length === 1 && isDragging) {
+                const dx = e.touches[0].clientX - lastMouseX;
+                const dy = e.touches[0].clientY - lastMouseY;
+                
+                if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+                    didDrag = true;
+                }
+                
+                targetTheta -= dx * 0.01;
+                targetPhi += dy * 0.01;
+                targetPhi = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, targetPhi));
+                
+                lastMouseX = e.touches[0].clientX;
+                lastMouseY = e.touches[0].clientY;
+            } else if (e.touches.length === 2) {
+                const dist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                
+                targetDistance -= (dist - lastTouchDistance) * 0.1;
+                targetDistance = Math.max(20, Math.min(150, targetDistance));
+                
+                lastTouchDistance = dist;
+            }
+        }, { passive: false });
+        
+        canvas.addEventListener('touchend', e => {
+            isDragging = false;
+            lastInteraction = Date.now();
+            
+            if (!didDrag && e.changedTouches.length === 1) {
+                // Check tap on node
+                const rect = canvas.getBoundingClientRect();
+                const touch = e.changedTouches[0];
+                const mouse = new THREE.Vector2(
+                    ((touch.clientX - rect.left) / rect.width) * 2 - 1,
+                    -((touch.clientY - rect.top) / rect.height) * 2 + 1
+                );
+                
+                const raycaster = new THREE.Raycaster();
+                raycaster.setFromCamera(mouse, camera);
+                
+                const meshes = graphNodes.map(n => n.mesh);
+                const intersects = raycaster.intersectObjects(meshes);
+                
+                if (intersects.length > 0) {
+                    selectNode(intersects[0].object.userData.node);
+                }
+            }
+        });
+        
+        // Resize
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        });
+    }
+    
+    function selectNode(node) {
+        if (selectedNode === node) {
+            deselectNode();
+            return;
+        }
+        
+        selectedNode = node;
+        
+        // Reset materials
+        graphNodes.forEach(n => {
+            n.mesh.material.transparent = true;
+        });
+        
+        // Show panel
+        const panel = document.getElementById('node-panel');
+        const color = new THREE.Color(node.color);
+        
+        document.getElementById('panel-name').textContent = node.name;
+        document.getElementById('panel-category').textContent = CATEGORY_NAMES[node.category];
+        document.getElementById('panel-category').style.background = `rgba(${color.r*255},${color.g*255},${color.b*255},0.3)`;
+        document.getElementById('panel-category').style.color = `rgb(${color.r*255},${color.g*255},${color.b*255})`;
+        document.getElementById('panel-connections').textContent = toPersianNum(node.connections.length);
+        
+        const list = document.getElementById('panel-connections-list');
+        list.innerHTML = '';
+        node.connections.forEach(conn => {
+            const item = document.createElement('div');
+            item.className = 'connection-item';
+            const connColor = new THREE.Color(conn.color);
+            item.innerHTML = `
+                <div class="connection-dot" style="background: rgb(${connColor.r*255},${connColor.g*255},${connColor.b*255});"></div>
+                <span>${conn.name}</span>
+            `;
+            list.appendChild(item);
+        });
+        
+        panel.classList.add('show');
+        closeToast();
+    }
+    
+    function deselectNode() {
+        selectedNode = null;
+        
+        graphNodes.forEach(node => {
+            node.mesh.material.opacity = 1;
+            node.label.material.opacity = 1;
+        });
+        graphEdges.forEach(edge => {
+            edge.line.material.opacity = 0.3;
+        });
+        
+        document.getElementById('node-panel').classList.remove('show');
+    }
+    
+    function closeNodePanel() {
+        deselectNode();
+    }
+    
+    function closeToast() {
+        document.getElementById('insight-toast').classList.remove('show');
+    }
+    
+    // ═══════════════════════════════════════
+    // بخش ۱۶: آماده‌سازی اولیه
+    // ═══════════════════════════════════════
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        createChips('interests', 'interests-chips');
+        createChips('skills', 'skills-chips');
+        createChips('goals', 'goals-chips');
+        createChips('challenges', 'challenges-chips');
+        
+        updateProgressBar();
+    });
+    </script>
+</body>
+</html>

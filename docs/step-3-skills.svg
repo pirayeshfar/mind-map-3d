@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#030014"/>
+      <stop offset="100%" style="stop-color:#0a0020"/>
+    </linearGradient>
+    <linearGradient id="purpleGlow3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#00f5ff;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="btnGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed"/>
+      <stop offset="100%" style="stop-color:#00f5ff"/>
+    </linearGradient>
+    <linearGradient id="titleGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#00f5ff"/>
+    </linearGradient>
+    <linearGradient id="chipSel3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(124,58,237,0.6)"/>
+      <stop offset="100%" style="stop-color:rgba(0,245,255,0.4)"/>
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bgGrad3)"/>
+  
+  <!-- Gradient orbs -->
+  <ellipse cx="80" cy="80" rx="120" ry="120" fill="url(#purpleGlow3)"/>
+  <ellipse cx="320" cy="320" rx="100" ry="100" fill="url(#purpleGlow3)" opacity="0.5"/>
+  
+  <!-- Progress bar -->
+  <rect x="0" y="0" width="400" height="4" fill="rgba(255,255,255,0.1)"/>
+  <rect x="0" y="0" width="200" height="4" fill="url(#btnGrad3)"/>
+  
+  <!-- Glass card -->
+  <rect x="20" y="40" width="360" height="315" rx="24" ry="24" 
+        fill="rgba(255,255,255,0.05)" 
+        stroke="rgba(255,255,255,0.1)" 
+        stroke-width="1"/>
+  
+  <!-- Floating emoji -->
+  <text x="200" y="80" text-anchor="middle" font-size="35" filter="url(#glow3)">🛠️</text>
+  
+  <!-- Title -->
+  <text x="200" y="110" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="16" font-weight="700" fill="url(#titleGrad3)">چه مهارت‌هایی داری؟</text>
+  
+  <!-- Subtitle -->
+  <text x="200" y="130" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="10" fill="rgba(255,255,255,0.7)">مهارت‌هایی که بهشون مسلط هستی یا دوست داری یاد بگیری</text>
+  
+  <!-- Counter -->
+  <text x="200" y="150" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="10" fill="rgba(255,255,255,0.6)">۲ مورد انتخاب شده</text>
+  
+  <!-- Chips Row 1 -->
+  <rect x="35" y="165" width="85" height="28" rx="14" fill="url(#chipSel3)" stroke="#7c3aed" stroke-width="1"/>
+  <text x="77" y="184" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="white">👨‍💻 برنامه‌نویسی</text>
+  
+  <rect x="130" y="165" width="55" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="157" y="184" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">🎨 طراحی</text>
+  
+  <rect x="195" y="165" width="80" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="235" y="184" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">📝 نوشتن و محتوا</text>
+  
+  <rect x="285" y="165" width="65" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="317" y="184" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">🎤 سخنرانی</text>
+  
+  <!-- Chips Row 2 -->
+  <rect x="55" y="200" width="55" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="82" y="219" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">📊 تحلیل</text>
+  
+  <rect x="120" y="200" width="60" height="28" rx="14" fill="url(#chipSel3)" stroke="#7c3aed" stroke-width="1"/>
+  <text x="150" y="219" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="white">💡 خلاقیت</text>
+  
+  <rect x="190" y="200" width="55" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="217" y="219" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">👑 رهبری</text>
+  
+  <rect x="255" y="200" width="65" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="287" y="219" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">🤝 کار تیمی</text>
+  
+  <!-- Chips Row 3 -->
+  <rect x="55" y="235" width="65" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="87" y="254" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">🧩 حل مسئله</text>
+  
+  <rect x="130" y="235" width="70" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="165" y="254" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">📋 سازمان‌دهی</text>
+  
+  <rect x="210" y="235" width="60" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="240" y="254" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">💬 ارتباطات</text>
+  
+  <rect x="280" y="235" width="55" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="307" y="254" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.8)">📚 تدریس</text>
+  
+  <!-- Add custom -->
+  <rect x="110" y="275" width="100" height="28" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="160" y="294" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.4)">مهارت دلخواه...</text>
+  
+  <rect x="220" y="275" width="70" height="28" rx="14" fill="rgba(124,58,237,0.3)" stroke="#7c3aed" stroke-width="1"/>
+  <text x="255" y="294" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="white">+ افزودن</text>
+  
+  <!-- Buttons -->
+  <rect x="85" y="313" width="100" height="36" rx="12" ry="12" 
+        fill="rgba(255,255,255,0.1)" 
+        stroke="rgba(255,255,255,0.2)" 
+        stroke-width="1"/>
+  <text x="135" y="336" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="12" font-weight="600" fill="white">قبلی</text>
+  
+  <rect x="215" y="313" width="100" height="36" rx="12" ry="12" fill="url(#btnGrad3)" filter="url(#glow3)"/>
+  <text x="265" y="336" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="12" font-weight="600" fill="white">بعدی</text>
+  
+  <!-- Footer -->
+  <rect x="100" y="365" width="200" height="28" rx="14" ry="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="200" y="383" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="8" fill="rgba(255,255,255,0.6)">💜 امیرسامان پیرایش‌فر | ۲۰۲۶</text>
+</svg>

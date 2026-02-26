@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGradIns" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#030014"/>
+      <stop offset="100%" style="stop-color:#0a0020"/>
+    </linearGradient>
+    <linearGradient id="btnGradIns" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed"/>
+      <stop offset="100%" style="stop-color:#00f5ff"/>
+    </linearGradient>
+    <filter id="glowIns">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <radialGradient id="cyanGlowIns" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#00f5ff;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#00f5ff;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="purpleGlowIns" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bgGradIns)"/>
+  
+  <!-- Stars -->
+  <g fill="white" opacity="0.3">
+    <circle cx="30" cy="40" r="0.5"/>
+    <circle cx="80" cy="70" r="0.5"/>
+    <circle cx="320" cy="50" r="0.5"/>
+    <circle cx="370" cy="90" r="0.5"/>
+    <circle cx="50" cy="350" r="0.5"/>
+    <circle cx="350" cy="370" r="0.5"/>
+  </g>
+  
+  <!-- Blurred nodes in background -->
+  <ellipse cx="100" cy="200" rx="30" ry="30" fill="url(#purpleGlowIns)" opacity="0.5"/>
+  <ellipse cx="200" cy="150" rx="40" ry="40" fill="url(#cyanGlowIns)" opacity="0.5"/>
+  <ellipse cx="300" cy="220" rx="30" ry="30" fill="url(#purpleGlowIns)" opacity="0.5"/>
+  <ellipse cx="180" cy="300" rx="25" ry="25" fill="url(#purpleGlowIns)" opacity="0.3"/>
+  
+  <!-- Blurred edges -->
+  <line x1="100" y1="200" x2="200" y2="150" stroke="#7c3aed" stroke-width="1" opacity="0.2"/>
+  <line x1="200" y1="150" x2="300" y2="220" stroke="#00f5ff" stroke-width="1" opacity="0.2"/>
+  <line x1="100" y1="200" x2="180" y2="300" stroke="#7c3aed" stroke-width="1" opacity="0.2"/>
+  
+  <!-- Toast panel -->
+  <rect x="60" y="100" width="280" height="200" rx="16" ry="16" fill="rgba(0,0,0,0.7)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  
+  <!-- Toast header -->
+  <text x="285" y="130" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="14" font-weight="600" fill="#00f5ff">✨ بینش شخصی</text>
+  
+  <!-- Close button -->
+  <circle cx="85" cy="125" r="12" fill="rgba(255,255,255,0.1)"/>
+  <text x="85" y="130" text-anchor="middle" font-size="14" fill="rgba(255,255,255,0.5)">×</text>
+  
+  <!-- Divider -->
+  <line x1="75" y1="145" x2="325" y2="145" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  
+  <!-- Toast content -->
+  <text x="310" y="170" text-anchor="end" font-family="Vazirmatn, Arial" font-size="11" fill="rgba(255,255,255,0.8)">
+    <tspan fill="#f472b6" font-weight="600">امیرسامان</tspan>، تبریک می‌گم! 🎉
+  </text>
+  
+  <text x="310" y="195" text-anchor="end" font-family="Vazirmatn, Arial" font-size="10" fill="rgba(255,255,255,0.8)">بر اساس پاسخ‌هات،</text>
+  <text x="310" y="215" text-anchor="end" font-family="Vazirmatn, Arial" font-size="10" fill="rgba(255,255,255,0.8)">
+    <tspan fill="#f472b6" font-weight="600">🚀 استارتاپ فناوری</tspan>
+  </text>
+  <text x="310" y="235" text-anchor="end" font-family="Vazirmatn, Arial" font-size="10" fill="rgba(255,255,255,0.8)">می‌تونه یه مسیر عالی برات باشه!</text>
+  
+  <text x="310" y="260" text-anchor="end" font-family="Vazirmatn, Arial" font-size="10" fill="rgba(255,255,255,0.8)">ترکیب <tspan fill="#f472b6">💻 تکنولوژی</tspan> و <tspan fill="#f472b6">👨‍💻 برنامه‌نویسی</tspan></text>
+  <text x="310" y="280" text-anchor="end" font-family="Vazirmatn, Arial" font-size="10" fill="rgba(255,255,255,0.8)">می‌تونه نقطه قوت منحصربه‌فردت باشه.</text>
+  
+  <!-- Footer -->
+  <rect x="100" y="365" width="200" height="28" rx="14" ry="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="200" y="383" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="8" fill="rgba(255,255,255,0.6)">💜 امیرسامان پیرایش‌فر | ۲۰۲۶</text>
+</svg>

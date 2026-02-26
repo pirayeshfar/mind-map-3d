@@ -1,1 +1,67 @@
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#030014"/>
+      <stop offset="100%" style="stop-color:#0a0020"/>
+    </linearGradient>
+    <linearGradient id="purpleGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#00f5ff;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed"/>
+      <stop offset="100%" style="stop-color:#00f5ff"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#00f5ff"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="cardBlur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bgGrad)"/>
+  
+  <!-- Gradient orbs -->
+  <ellipse cx="80" cy="80" rx="120" ry="120" fill="url(#purpleGlow)"/>
+  <ellipse cx="320" cy="320" rx="100" ry="100" fill="url(#purpleGlow)" opacity="0.5"/>
+  
+  <!-- Progress bar -->
+  <rect x="0" y="0" width="400" height="4" fill="rgba(255,255,255,0.1)"/>
+  <rect x="0" y="0" width="0" height="4" fill="url(#btnGrad)"/>
+  
+  <!-- Glass card -->
+  <rect x="30" y="60" width="340" height="280" rx="24" ry="24" 
+        fill="rgba(255,255,255,0.05)" 
+        stroke="rgba(255,255,255,0.1)" 
+        stroke-width="1"/>
+  
+  <!-- Floating emoji -->
+  <text x="200" y="120" text-anchor="middle" font-size="50" filter="url(#glow)">🧠</text>
+  
+  <!-- Title -->
+  <text x="200" y="170" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="18" font-weight="700" fill="url(#titleGrad)">نقشه ذهنی خودت رو کشف کن</text>
+  
+  <!-- Description -->
+  <text x="200" y="205" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="11" fill="rgba(255,255,255,0.7)">با پاسخ به چند سؤال ساده، افکار، استعدادها</text>
+  <text x="200" y="225" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="11" fill="rgba(255,255,255,0.7)">و اهدافت رو به یک شبکه سه‌بعدی زیبا تبدیل می‌کنیم</text>
+  <text x="200" y="245" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="11" fill="rgba(255,255,255,0.7)">این نقشه بهت کمک می‌کنه ارتباط بین علایق</text>
+  <text x="200" y="265" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="11" fill="rgba(255,255,255,0.7)">و مهارت‌هات رو ببینی و مسیرهای جدید کشف کنی!</text>
+  
+  <!-- Button -->
+  <rect x="130" y="290" width="140" height="44" rx="12" ry="12" fill="url(#btnGrad)" filter="url(#glow)"/>
+  <text x="200" y="318" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="14" font-weight="600" fill="white">✨ شروع کنیم</text>
+  
+  <!-- Footer -->
+  <rect x="100" y="360" width="200" height="30" rx="15" ry="15" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="200" y="380" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.6)">💜 امیرسامان پیرایش‌فر | ۲۰۲۶</text>
+</svg>

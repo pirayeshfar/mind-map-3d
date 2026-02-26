@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#030014"/>
+      <stop offset="100%" style="stop-color:#0a0020"/>
+    </linearGradient>
+    <linearGradient id="purpleGlow1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#00f5ff;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="btnGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed"/>
+      <stop offset="100%" style="stop-color:#00f5ff"/>
+    </linearGradient>
+    <linearGradient id="titleGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#00f5ff"/>
+    </linearGradient>
+    <linearGradient id="progressGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7c3aed"/>
+      <stop offset="100%" style="stop-color:#00f5ff"/>
+    </linearGradient>
+    <filter id="glow1">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bgGrad1)"/>
+  
+  <!-- Gradient orbs -->
+  <ellipse cx="80" cy="80" rx="120" ry="120" fill="url(#purpleGlow1)"/>
+  <ellipse cx="320" cy="320" rx="100" ry="100" fill="url(#purpleGlow1)" opacity="0.5"/>
+  
+  <!-- Progress bar -->
+  <rect x="0" y="0" width="400" height="4" fill="rgba(255,255,255,0.1)"/>
+  <rect x="0" y="0" width="66" height="4" fill="url(#progressGrad1)"/>
+  
+  <!-- Glass card -->
+  <rect x="30" y="70" width="340" height="260" rx="24" ry="24" 
+        fill="rgba(255,255,255,0.05)" 
+        stroke="rgba(255,255,255,0.1)" 
+        stroke-width="1"/>
+  
+  <!-- Floating emoji -->
+  <text x="200" y="120" text-anchor="middle" font-size="45" filter="url(#glow1)">👋</text>
+  
+  <!-- Title -->
+  <text x="200" y="165" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="20" font-weight="700" fill="url(#titleGrad1)">اسمت چیه؟</text>
+  
+  <!-- Description -->
+  <text x="200" y="195" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="12" fill="rgba(255,255,255,0.7)">می‌خوایم نقشه رو برات شخصی‌سازی کنیم</text>
+  
+  <!-- Input field -->
+  <rect x="100" y="215" width="200" height="45" rx="12" ry="12" 
+        fill="rgba(255,255,255,0.08)" 
+        stroke="rgba(255,255,255,0.15)" 
+        stroke-width="2"/>
+  <text x="200" y="244" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="12" fill="rgba(255,255,255,0.4)">اسمت رو بنویس (اختیاری)</text>
+  
+  <!-- Buttons -->
+  <rect x="85" y="280" width="100" height="40" rx="12" ry="12" 
+        fill="rgba(255,255,255,0.1)" 
+        stroke="rgba(255,255,255,0.2)" 
+        stroke-width="1"/>
+  <text x="135" y="306" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="13" font-weight="600" fill="white">قبلی</text>
+  
+  <rect x="215" y="280" width="100" height="40" rx="12" ry="12" fill="url(#btnGrad1)" filter="url(#glow1)"/>
+  <text x="265" y="306" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="13" font-weight="600" fill="white">بعدی</text>
+  
+  <!-- Footer -->
+  <rect x="100" y="360" width="200" height="30" rx="15" ry="15" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="200" y="380" text-anchor="middle" font-family="Vazirmatn, Arial" font-size="9" fill="rgba(255,255,255,0.6)">💜 امیرسامان پیرایش‌فر | ۲۰۲۶</text>
+</svg>
